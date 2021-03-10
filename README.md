@@ -6,6 +6,8 @@ A light weight Docker image for an Exim mail relay, based on the official Alpine
 
 For extra security, the container runs as exim not root.
 
+https://hub.docker.com/r/laimison/exim-relay
+
 ## Docker
 
 ### Default setup
@@ -19,7 +21,7 @@ docker run \
        -h my.host.name \
        -d \
        -p 25:8025 \
-       industrieco/exim-relay
+       laimison/exim-relay
 ```
 
 ### Smarthost setup
@@ -35,7 +37,7 @@ docker run \
        -e SMARTHOST=some.relayhost.name \
        -e SMTP_USERNAME=someuser \
        -e SMTP_PASSWORD=password \
-       industrieco/exim-relay
+       laimison/exim-relay
 ```
 
 ## Docker Compose
@@ -44,7 +46,7 @@ docker run \
 version: "2"
   services:
     smtp:
-      image: industrieco/exim-relay
+      image: laimison/exim-relay
       restart: always
       ports:
         - "25:8025"
@@ -115,4 +117,22 @@ Exim commands can be run to check the status of the mail server as well
 
 ```shell
 docker exec -ti smtp exim -bp
+```
+
+## Common
+
+### Push image to Docker Hub
+
+```
+
+docker login --username=laimison
+
+hub_push_exim_relay () {
+docker build -t laimison/exim-relay .
+docker images | grep laimison/exim-relay | head -n 1 | awk '{print $3}' | while read -r value; do docker tag $value laimison/exim-relay:latest; done
+docker push laimison/exim-relay
+}
+
+hub_push_exim_relay
+
 ```

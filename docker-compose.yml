@@ -2,10 +2,10 @@ version: "3.7"
 
 services:
   smtp:
-    # image: industrieco/exim-relay
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: laimison/exim-relay
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: smtp
     hostname: smtp
     user: 100:101
