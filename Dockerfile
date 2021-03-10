@@ -1,7 +1,7 @@
-FROM alpine:3.6
+FROM alpine:3.12.4
 
 RUN apk --no-cache add exim && \
-    mkdir /var/log/exim /var/spool/exim /usr/lib/exim && \
+    mkdir /var/spool/exim && \
     ln -sf /dev/stdout /var/log/exim/mainlog && \
     ln -sf /dev/stderr /var/log/exim/panic && \
     ln -sf /dev/stderr /var/log/exim/reject && \
