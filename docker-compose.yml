@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  smtp:
+    image: industrieco/exim-relay
+    container_name: smtp
+    hostname: smtp
+    user: 100:101
+    restart: always
+    ports:
+      - "1025:8025"
+    environment:
+      - HOSTNAME=my.host.name
+      - SMARTHOST=some.relayhost.name::587
+      - SMTP_USERNAME=someuser
+      - SMTP_PASSWORD=password
