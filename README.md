@@ -6,6 +6,12 @@ A light weight Docker image for an Exim mail relay, based on the official Alpine
 
 For extra security, the container runs as exim not root.
 
+Official info about running Exim without privilege:
+
+https://www.exim.org/exim-html-current/doc/html/spec_html/ch-security_considerations.html
+
+Docker Hub:
+
 https://hub.docker.com/r/laimison/exim-relay
 
 ## Docker
@@ -118,6 +124,28 @@ Exim commands can be run to check the status of the mail server as well
 ```shell
 docker exec -ti smtp exim -bp
 ```
+
+## Goals
+
+Requirements
+
+* hostname - sender hostname (e.g. exim, example.com)
+
+* server - same as hostname if server is hostname (not IP) / server is the relay server to send mails through
+
+* port - port (e.g. 10025, 587) / port is the port used by the relay server to accept connections
+
+* networks - networks is the list of allowed networks to send mail from (e.g. "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16")
+
+* senderDomains - senderDomains is the list of allowed domains to send mails from; set to `'*'` for any (e.g. `"*"`)
+
+* recipientDomains - recipientDomains is the list of allowed domains to send mails to; leave blank for any. (e.g. example.local, example.com, "" )
+
+Not needed
+
+* username - username is the user to authenticate with the relay server if needed
+
+* password - password is the password used to authenticate with the relay server if needed
 
 ## Common
 
