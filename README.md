@@ -164,3 +164,21 @@ docker push laimison/exim-relay
 hub_push_exim_relay
 
 ```
+
+### Gain root while working
+
+```
+docker exec -u root -it smtp sh
+```
+
+### Send test email
+
+```
+docker run --rm -it ubuntu:18.04 bash
+apt update && apt install ssmtp vim iputils-ping netcat -y
+# docker host's IP
+nc -v 192.168.2.239 1025
+vi /etc/ssmtp/ssmtp.conf
+read receiver
+echo -e 'Subject: test\n\nTesting ssmtp' | sendmail -v $receiver
+```
