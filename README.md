@@ -178,7 +178,10 @@ docker run --rm -it ubuntu:18.04 bash
 apt update && apt install ssmtp vim iputils-ping netcat -y
 # docker host's IP
 nc -v 192.168.2.239 1025
+# or whatever your laptop IP is
+nc -v 192.168.2.182 1025
 vi /etc/ssmtp/ssmtp.conf
+# mailhub=192.168.2.182:1025
 read receiver
 echo -e 'Subject: test\n\nTesting ssmtp' | sendmail -v $receiver
 ```

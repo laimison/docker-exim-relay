@@ -2,10 +2,18 @@ version: "3.7"
 
 services:
   smtp:
-    image: laimison/exim-relay
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    # Remote
+    # image: laimison/exim-relay
+
+    # Or local
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # Comment out to use default or uncomment and run: exim -bdf -q15m
+    # entrypoint: >
+    #   sh -c "sleep 100000000"
+
     container_name: smtp
     hostname: smtp
     user: 100:101
