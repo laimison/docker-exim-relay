@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "smtp-relay.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+{{ include "smtp-relay.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "smtp-relay.fixed-labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "smtp-relay.fixed-labels" . | nindent 8 }}
+    spec:
+    {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: smtp
+              containerPort: 8025
+              protocol: TCP
+          env:
+            - name: "HOSTNAME"
+              value: {{ .Values.config.hostname | quote }}
+                    {{- if .Values.config.relay.server }}
+            - name: "SMARTHOST"
+              value: {{ printf "%s:%.0f" .Values.config.relay.server .Values.config.relay.port | quote }}
+                    {{- end}}
+                  {{- if .Values.config.relay.username }}
+            - name: "SMTP_USERNAME"
+              value: {{ .Values.config.relay.username | quote }}
+                    {{- end }}
+                    {{- if .Values.config.relay.password}}
+            - name: "SMTP_PASSWORD"
+              value: {{ .Values.config.relay.password | quote }}
+                    {{- end }}
+            - name: "RELAY_FROM_HOSTS"
+              value: {{ .Values.config.allowed.networks | quote }}
+            - name: "RELAY_TO_DOMAINS"
+              value: {{ .Values.config.allowed.recipientDomains | quote }}
+                    {{- end }}
+            {{- range $key, $val := .Values.extraVars }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+            {{- end}}
+          livenessProbe:
+            tcpSocket:
+              port: 8025
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

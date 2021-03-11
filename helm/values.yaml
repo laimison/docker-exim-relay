@@ -1,0 +1,61 @@
+replicaCount: 1
+
+namespace: infra
+
+networkPolicy:
+  enabled: true
+  allowedNamespaces: []
+  externalIps: []
+
+image:
+  repository: your/image/location
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  port: 25
+  annotations:
+    # Annotation used for GCP's internal Load Balancer
+    cloud.google.com/load-balancer-type: "Internal"
+config:
+  # Sender hostname
+  hostname: "exim"
+  relay:
+    # server is the relay server to send mails through
+    server: ""
+    # port is the port used by the relay server to accept connections
+    port: 587
+    # username is the user to authenticate with the relay server if needed
+    username: ""
+    # password is the password used to authenticate with the relay server if needed
+    password: ""
+  allowed:
+    # networks is the list of allowed networks to send mail from
+    networks: "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    # senderDomains is the list of allowed domains to send mails from; set to '*' for any.
+    senderDomains: "*"
+    # recipientDomains is the list of allowed domains to send mails to; leave blank for any.
+    recipientDomains: "example.local"
+
+# extraVars defines additional environment variables
+extraVars: []
+  #- name: "VARIABLEL"
+  #  value: "valuehere"
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 20m
+    memory: 64Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

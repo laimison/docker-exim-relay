@@ -156,12 +156,15 @@ Not needed
 docker login --username=laimison
 
 hub_push_exim_relay () {
+if echo $1 | grep -q '[a-zA-Z0-9]'; then tag=$1; else tag=latest; fi
 docker build -t laimison/exim-relay .
-docker images | grep laimison/exim-relay | head -n 1 | awk '{print $3}' | while read -r value; do docker tag $value laimison/exim-relay:latest; done
-docker push laimison/exim-relay
+docker images | grep laimison/exim-relay | head -n 1 | awk '{print $3}' | while read -r value; do docker tag $value laimison/exim-relay:"${tag}"; done
+docker push laimison/exim-relay:"${tag}"
 }
 
 hub_push_exim_relay
+
+hub_push_exim_relay 0.1
 
 ```
 

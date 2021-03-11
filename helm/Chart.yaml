@@ -1,0 +1,9 @@
+apiVersion: v1
+name: smtp-relay
+home: https://www.exim.org
+description: Exim relay
+icon: https://www.exim.org/i/exim-blue-ld-87x65.png
+keywords:
+  - smtp
+  - exim
+engine: gotpl
