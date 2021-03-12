@@ -12,6 +12,9 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 
+  # additional
+  tag: 0.1
+
 nameOverride: ""
 fullnameOverride: ""
 

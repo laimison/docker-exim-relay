@@ -188,3 +188,11 @@ vi /etc/ssmtp/ssmtp.conf
 read receiver
 echo -e 'Subject: test\n\nTesting ssmtp' | sendmail -v $receiver
 ```
+
+### Helm
+
+```
+cd helm
+mkdir -p tmp
+helm template -f values.yaml --output-dir tmp/exim-relay .
+```

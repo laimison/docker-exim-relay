@@ -44,6 +44,9 @@ spec:
                     {{- end }}
             - name: "RELAY_FROM_HOSTS"
               value: {{ .Values.config.allowed.networks | quote }}
+            - name: "ALLOWED_SENDER_DOMAINS"
+              value: {{ .Values.config.allowed.senderDomains | quote }}
+                    {{- if .Values.config.allowed.recipientDomains }}
             - name: "RELAY_TO_DOMAINS"
               value: {{ .Values.config.allowed.recipientDomains | quote }}
                     {{- end }}
