@@ -32,7 +32,7 @@ spec:
               value: {{ .Values.config.hostname | quote }}
                     {{- if .Values.config.relay.server }}
             - name: "SMARTHOST"
-              value: {{ printf "%s:%.0f" .Values.config.relay.server .Values.config.relay.port | quote }}
+              value: {{ printf "%s::%.0f" .Values.config.relay.server .Values.config.relay.port | quote }}
                     {{- end}}
                   {{- if .Values.config.relay.username }}
             - name: "SMTP_USERNAME"
@@ -43,12 +43,12 @@ spec:
               value: {{ .Values.config.relay.password | quote }}
                     {{- end }}
             - name: "RELAY_FROM_HOSTS"
-              value: {{ .Values.config.allowed.networks | quote }}
+              value: {{ regexReplaceAll "\\,+" .Values.config.allowed.networks ":" | quote }}
             - name: "ALLOWED_SENDER_DOMAINS"
-              value: {{ .Values.config.allowed.senderDomains | quote }}
+              value: {{ regexReplaceAll "\\,+" .Values.config.allowed.senderDomains ":" | quote }}
                     {{- if .Values.config.allowed.recipientDomains }}
             - name: "RELAY_TO_DOMAINS"
-              value: {{ .Values.config.allowed.recipientDomains | quote }}
+              value: {{ regexReplaceAll "\\,+" .Values.config.allowed.recipientDomains ":" | quote }}
                     {{- end }}
             {{- range $key, $val := .Values.extraVars }}
             - name: {{ $key | quote }}

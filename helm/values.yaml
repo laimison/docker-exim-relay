@@ -29,7 +29,7 @@ config:
   hostname: "exim"
   relay:
     # server is the relay server to send mails through
-    server: ""
+    server: "smtp-server"
     # port is the port used by the relay server to accept connections
     port: 587
     # username is the user to authenticate with the relay server if needed
@@ -42,7 +42,7 @@ config:
     # senderDomains is the list of allowed domains to send mails from; set to '*' for any.
     senderDomains: "*"
     # recipientDomains is the list of allowed domains to send mails to; leave blank for any.
-    recipientDomains: "example.local"
+    recipientDomains: "example.local,example.internal"
 
 # extraVars defines additional environment variables
 extraVars: []
