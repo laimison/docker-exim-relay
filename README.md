@@ -211,7 +211,7 @@ def send_email(send_from, send_to):
     smtp_obj.sendmail(msg['From'], [msg['To']], msg.as_string())
     smtp_obj.quit()
 
-send_email("lvalatka@theworkshop.com", "lvalatka@theworkshop.com,")
+send_email("iam@example.com", "you@example.com,")
 ```
 
 ### Helm
